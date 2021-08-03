@@ -26,13 +26,14 @@ const Web3Webview = () => {
 
   const onMessage = data => {
     console.log('onMessage data', data);
+    if (data.type === 'history-state-changed') return;
     let res = {};
-    if (data.payload) {
+    if (data.payload && data.payload.method === 'eth_getBalance') {
       res = {
         type: 'web3-send-async-callback',
         messageId: data.messageId,
         jsonrpc: '2.0',
-        result: {result: 387207600000000}, // wei
+        result: {result: 1000000000000000000}, // wei
       };
     } else {
       res = {
