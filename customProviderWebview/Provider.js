@@ -1,4 +1,4 @@
-export const INJECTED_PROVIDER = `(function(){
+export const INJECTED_PROVIDER = /* js */ `(function(){
   if(typeof EthereumProvider === "undefined"){
   var callbackId = 0;
   var callbacks = {};
@@ -63,13 +63,17 @@ export const INJECTED_PROVIDER = `(function(){
     this.message = "The user rejected the request.";
   }
   UserRejectedRequest.prototype = Object.create(Error.prototype);
-  ReactNativeWebView.onMessage = function (message)
+  ReactNativeWebView.onMessage = function (data)
   {
-      // data = JSON.parse(message);
-      data = message;
+      console.log('onMessage >> provider callbacks', callbacks)
+      console.log('onMessage >> provider data=', data)
+
       var id = data.messageId;
       var callback = callbacks[id];
-      if (true) {
+
+      console.log('onMessage >> callback=', callback)
+
+      if (callback) {
           if (data.type === "api-response") {
               if (data.permission == 'qr-code'){
                   qrCodeResponse(data, callback);
